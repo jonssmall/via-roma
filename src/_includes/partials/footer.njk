@@ -1,0 +1,59 @@
+<footer class="mt-20 bg-espresso-900 text-cream-100">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <h2 class="font-display text-xl font-semibold text-cream-50">{{ site.name }}</h2>
+      <p class="mt-2 text-sm text-cream-200">{{ site.tagline }}</p>
+    </div>
+
+    <div>
+      <h3 class="eyebrow text-brass-400">Visit</h3>
+      <address class="mt-3 space-y-0.5 text-sm not-italic text-cream-100">
+        <div>{{ site.address.line1 }}</div>
+        <div>{{ site.address.city }}, {{ site.address.state }} {{ site.address.zip }}</div>
+      </address>
+      <p class="mt-3 text-sm text-cream-100">{{ site.phone }}</p>
+      <p class="text-sm text-cream-100">{{ site.email }}</p>
+    </div>
+
+    <div>
+      <h3 class="eyebrow text-brass-400">Hours</h3>
+      <dl class="mt-3 space-y-2.5 text-sm text-cream-100">
+        {% for block in site.hours %}
+          <div>
+            <dt class="text-cream-300">{{ block.days }}</dt>
+            <dd>{{ block.time }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </div>
+
+    <nav aria-label="Footer">
+      <h3 class="eyebrow text-brass-400">Explore</h3>
+      <ul class="mt-3 space-y-1.5 text-sm">
+        {% for item in navigation %}
+          <li>
+            <a href="{{ item.url }}" class="text-cream-100 no-underline hover:text-cream-50 hover:underline"
+              >{{ item.label }}</a
+            >
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-espresso-800">
+    <div class="mx-auto max-w-6xl px-4 py-5 text-xs text-cream-300 sm:px-6">
+      <p>{{ site.disclaimer }}</p>
+      <p class="mt-2">&copy; 2026 {{ site.name }}. Built as a front-end portfolio demonstration.</p>
+      {% if imageCredits.length %}
+        <p class="mt-2">
+          {% for credit in imageCredits %}
+            {{ credit.subject }} by {{ credit.photographer }}, licensed
+            <a href="{{ credit.licenseUrl }}" target="_blank" rel="noopener noreferrer" class="text-cream-100 underline underline-offset-2 hover:text-cream-50">{{ credit.license }}</a>
+            (<a href="{{ credit.source }}" target="_blank" rel="noopener noreferrer" class="text-cream-100 underline underline-offset-2 hover:text-cream-50">source</a>).{{ " " if not loop.last }}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</footer>

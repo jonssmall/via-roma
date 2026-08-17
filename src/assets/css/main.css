@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* Fallback values for the sticky-header math below — close guesses for the
+   pre-JS/no-JS paint, overwritten with the real measured heights by
+   initStickyOffsets() in main.ts once the header (and, on /menu/, the
+   category sub-nav) have actually laid out. Don't hand-tune these; they're
+   not meant to be exact, JS makes them exact. */
+:root {
+  --header-height: 65px;
+  --sticky-offset: 8rem;
+}
+
+/* Design tokens for Via Roma's visual identity — warm ivory base, deep wine
+   accent, dark espresso ink, muted olive, brass used sparingly for
+   ornamental details. Tailwind v4 turns each of these into a utility
+   (bg-wine-600, text-espresso-800, font-display, …). Single fixed palette,
+   no dark-mode variant — a restaurant site like this commits to one warm,
+   considered look rather than switching themes. */
+@theme {
+  --color-cream-50: oklch(0.99 0.006 85);
+  --color-cream-100: oklch(0.97 0.013 82);
+  --color-cream-200: oklch(0.93 0.022 78);
+  --color-cream-300: oklch(0.87 0.028 74);
+
+  --color-espresso-50: oklch(0.94 0.012 55);
+  --color-espresso-500: oklch(0.42 0.035 48);
+  --color-espresso-600: oklch(0.33 0.03 46);
+  --color-espresso-800: oklch(0.23 0.025 42);
+  --color-espresso-900: oklch(0.16 0.02 38);
+
+  --color-wine-50: oklch(0.95 0.025 22);
+  --color-wine-100: oklch(0.9 0.045 20);
+  --color-wine-500: oklch(0.42 0.13 20);
+  --color-wine-600: oklch(0.35 0.125 18);
+  --color-wine-700: oklch(0.29 0.11 16);
+
+  --color-olive-100: oklch(0.92 0.035 125);
+  --color-olive-500: oklch(0.5 0.07 130);
+  --color-olive-600: oklch(0.42 0.07 130);
+
+  --color-brass-400: oklch(0.78 0.09 80);
+  --color-brass-500: oklch(0.7 0.1 75);
+  --color-brass-600: oklch(0.58 0.1 70);
+
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans:
+    "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream-50 text-espresso-800 font-sans antialiased;
+  }
+
+  /* Restaurant sites still get keyboard and screen-reader visitors — focus
+     rings stay loud and are never removed. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-wine-600;
+  }
+
+  /* No forced color here — headings inherit from whatever section they're
+     in. A hardcoded color would win over a dark section's text-cream-50
+     (the section sets color on itself, not on the heading), leaving
+     headings in dark bands invisible. Light sections fall back to body's
+     text-espresso-800, close enough to the old hardcoded text-espresso-900
+     that nothing needs to change there. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    @apply text-wine-600 underline-offset-2 hover:text-wine-700;
+  }
+}
+
+/* Defined with @utility (not @layer components) so it's a real Tailwind
+   utility that other classes below can @apply, and so hover:/focus-visible:
+   variants would work on it if ever needed directly in markup. */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide uppercase no-underline transition-colors;
+}
+
+@layer components {
+  /* Small centered ornament used to break up long sections without resorting
+     to a card/box around everything — the "subtle decorative detail" the
+     brand calls for instead of SaaS-style boxed content. */
+  .ornament {
+    @apply flex items-center justify-center gap-3 text-brass-600;
+  }
+
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    @apply h-px w-12 bg-brass-400;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold tracking-[0.2em] text-wine-600 uppercase;
+  }
+
+  .btn-primary {
+    @apply btn bg-wine-600 text-cream-50 hover:bg-wine-700;
+  }
+
+  .btn-secondary {
+    @apply btn border border-espresso-800 text-espresso-800 hover:bg-espresso-800 hover:text-cream-50;
+  }
+
+  .btn-ghost-light {
+    @apply btn border border-cream-50/70 text-cream-50 hover:bg-cream-50 hover:text-espresso-900;
+  }
+
+  .prose-roma {
+    @apply max-w-[62ch] text-[1.0625rem] leading-relaxed text-espresso-600;
+  }
+
+  .prose-roma p {
+    @apply my-4;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

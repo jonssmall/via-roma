@@ -1,0 +1,50 @@
+<header class="sticky top-0 z-40 border-b border-cream-300 bg-cream-50/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+    <a href="/" class="flex items-baseline gap-2 no-underline">
+      <span class="font-display text-2xl font-semibold text-espresso-900">Via Roma</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-7 md:flex">
+      {% for item in navigation %}
+        <a
+          href="{{ item.url }}"
+          class="text-sm font-semibold tracking-wide text-espresso-700 no-underline hover:text-wine-600 {% if page.url == item.url %}text-wine-600{% endif %}"
+          {% if page.url == item.url %}aria-current="page"{% endif %}
+          >{{ item.label }}</a
+        >
+      {% endfor %}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="/reservations/" class="btn-primary hidden sm:inline-flex">Reserve a Table</a>
+      <button
+        type="button"
+        data-nav-toggle
+        hidden
+        aria-expanded="false"
+        aria-controls="primary-nav-panel"
+        class="rounded border border-espresso-300 px-3 py-2 text-sm font-semibold text-espresso-800 md:hidden"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+
+  <div id="primary-nav-panel" data-nav-panel class="border-t border-cream-300 md:hidden">
+    <nav aria-label="Primary" class="mx-auto max-w-6xl px-4 py-2 sm:px-6">
+      <ul>
+        {% for item in navigation %}
+          <li class="border-b border-cream-200 last:border-0">
+            <a
+              href="{{ item.url }}"
+              class="block py-3 text-sm font-semibold text-espresso-800 no-underline {% if page.url == item.url %}text-wine-600{% endif %}"
+              {% if page.url == item.url %}aria-current="page"{% endif %}
+              >{{ item.label }}</a
+            >
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="/reservations/" class="btn-primary mt-4 mb-3 w-full">Reserve a Table</a>
+    </nav>
+  </div>
+</header>

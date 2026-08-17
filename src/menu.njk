@@ -1,0 +1,76 @@
+---
+layout: layouts/base.njk
+title: Menu
+description: Antipasti, pasta, secondi, contorni, and dolci at Via Roma.
+---
+
+<section class="bg-espresso-900 py-10 text-cream-50">
+  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6">
+    <p class="eyebrow text-brass-400">The menu</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Cucina Romana</h1>
+    <p class="prose-roma mx-auto mt-4 text-cream-100">
+      Traditional recipes, made in-house daily. (V) vegetarian, (GF)
+      gluten-free — ask your server about other accommodations.
+    </p>
+  </div>
+</section>
+
+<nav
+  aria-label="Menu categories"
+  class="sticky top-[var(--header-height)] z-30 border-b border-cream-300 bg-cream-50/95 backdrop-blur"
+>
+  <ul class="mx-auto flex max-w-6xl gap-6 overflow-x-auto px-4 py-3 text-sm font-semibold whitespace-nowrap sm:px-6">
+    {% for category in menu %}
+      <li><a href="#{{ category.slug }}" class="text-espresso-700 no-underline hover:text-wine-600">{{ category.name }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
+{% for category in menu %}
+  <section id="{{ category.slug }}" class="mx-auto max-w-6xl scroll-mt-[var(--sticky-offset)] px-4 py-16 sm:px-6">
+    <div class="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+      <div>
+        {% if category.image %}
+          <img
+            src="{{ category.image }}"
+            alt=""
+            width="1200" height="900"
+            loading="lazy"
+            class="mb-5 aspect-[4/3] w-full object-cover"
+          />
+        {% endif %}
+        <h2 class="text-3xl">{{ category.name }}</h2>
+        <p class="prose-roma mt-2 text-espresso-500">{{ category.description }}</p>
+      </div>
+
+      <ul class="divide-y divide-cream-200">
+        {% for item in category.items %}
+          <li class="group py-5 first:pt-0 last:pb-0">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 class="text-lg font-semibold text-espresso-900 group-hover:text-wine-600">
+                {{ item.name }}
+                {% if item.dietary %}
+                  <span class="ml-1 align-middle text-xs font-semibold tracking-wide text-olive-600">
+                    {% for tag in item.dietary %}({{ tag }}){% endfor %}
+                  </span>
+                {% endif %}
+              </h3>
+              <span class="font-display text-lg text-wine-600">{{ item.price | currency }}</span>
+            </div>
+            <p class="mt-1 max-w-2xl text-sm text-espresso-600">{{ item.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{% endfor %}
+
+<section class="bg-cream-100 py-16">
+  <div class="mx-auto max-w-2xl px-4 text-center sm:px-6">
+    <h2 class="text-3xl">Ready to join us?</h2>
+    <div class="mt-6 flex flex-wrap justify-center gap-4">
+      <a href="/reservations/" class="btn-primary">Reserve a Table</a>
+      <a href="/order/" class="btn-secondary">Order Online</a>
+    </div>
+  </div>
+</section>

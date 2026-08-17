@@ -1,0 +1,114 @@
+---
+layout: layouts/base.njk
+title: Reservations
+description: Reserve a table at Via Roma.
+---
+
+<section class="bg-espresso-900 py-10 text-cream-50">
+  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6">
+    <p class="eyebrow text-brass-400">Book a table</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Reservations</h1>
+  </div>
+</section>
+
+<section class="mx-auto max-w-2xl px-4 py-16 sm:px-6">
+  <form data-reservation-form novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="res-guests" class="text-sm font-semibold text-espresso-800">Guests</label>
+        <select
+          id="res-guests" name="guests" required
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+        >
+          <option value="">Select…</option>
+          {% for n in range(1, 9) %}
+            <option value="{{ n }}">{{ n }} {{ "guest" if n == 1 else "guests" }}</option>
+          {% endfor %}
+          <option value="9+">9+ guests (call us)</option>
+        </select>
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please select a party size.</p>
+      </div>
+
+      <div>
+        <label for="res-date" class="text-sm font-semibold text-espresso-800">Date</label>
+        <input
+          id="res-date" name="date" type="date" required
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+        />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please choose a date.</p>
+      </div>
+    </div>
+
+    <fieldset class="mt-5">
+      <legend class="text-sm font-semibold text-espresso-800">Time</legend>
+      <div class="mt-2 flex flex-wrap gap-2">
+        {% for slot in site.reservationSlots %}
+          <label class="cursor-pointer">
+            <input type="radio" name="time" value="{{ slot }}" required class="peer sr-only" />
+            <span class="block border border-cream-300 px-4 py-2 text-sm font-semibold text-espresso-800 peer-checked:border-wine-600 peer-checked:bg-wine-600 peer-checked:text-cream-50 peer-focus-visible:outline-2 peer-focus-visible:outline-wine-600">
+              {{ slot }}
+            </span>
+          </label>
+        {% endfor %}
+      </div>
+      <p class="mt-1 hidden text-sm text-wine-700" data-error>Please choose a time.</p>
+    </fieldset>
+
+    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="res-name" class="text-sm font-semibold text-espresso-800">Name</label>
+        <input
+          id="res-name" name="name" type="text" required autocomplete="name"
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+        />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter your name.</p>
+      </div>
+      <div>
+        <label for="res-phone" class="text-sm font-semibold text-espresso-800">Phone</label>
+        <input
+          id="res-phone" name="phone" type="tel" required autocomplete="tel"
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+        />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a phone number.</p>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <label for="res-email" class="text-sm font-semibold text-espresso-800">Email</label>
+      <input
+        id="res-email" name="email" type="email" required autocomplete="email"
+        class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+      />
+      <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a valid email.</p>
+    </div>
+
+    <div class="mt-5">
+      <label for="res-notes" class="text-sm font-semibold text-espresso-800">
+        Special requests <span class="font-normal text-espresso-500">(optional)</span>
+      </label>
+      <textarea
+        id="res-notes" name="notes" rows="3"
+        class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary mt-7 w-full sm:w-auto" data-submit-button>
+      <span data-label>Reserve a Table</span>
+    </button>
+  </form>
+
+  <div data-reservation-success hidden tabindex="-1" class="border border-olive-500 bg-olive-100 p-8 text-center">
+    <p class="eyebrow text-wine-600">Reservation confirmed</p>
+    <h2 class="mt-2 text-3xl text-espresso-900">Table for <span data-confirm-guests></span></h2>
+    <p class="prose-roma mx-auto mt-2 text-lg" data-confirm-datetime></p>
+    <p class="prose-roma mx-auto mt-4">
+      Via Roma<br />
+      {{ site.address.line1 }}, {{ site.address.city }}, {{ site.address.state }}
+    </p>
+    <div class="mt-7 flex flex-wrap justify-center gap-3">
+      <button type="button" class="btn-secondary" data-add-to-calendar>Add to Calendar</button>
+      <button type="button" class="btn-secondary" data-modify-reservation>Modify Reservation</button>
+      <a href="/" class="btn-secondary">Return Home</a>
+    </div>
+  </div>
+</section>

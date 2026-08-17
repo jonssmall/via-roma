@@ -1,0 +1,5 @@
+node_modules/
+_site/
+.11ty-vite/
+.DS_Store
+*.log

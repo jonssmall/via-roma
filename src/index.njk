@@ -1,0 +1,188 @@
+---
+layout: layouts/base.njk
+title: Home
+description: A traditional Italian restaurant — handmade pasta, traditional Roman recipes, and a carefully chosen wine list.
+---
+
+<section class="relative flex min-h-[86vh] items-center overflow-hidden bg-espresso-900 text-cream-50">
+  <img
+    src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2000&auto=format&fit=crop"
+    alt=""
+    class="absolute inset-0 h-full w-full object-cover opacity-55"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-espresso-900 via-espresso-900/50 to-espresso-900/20"></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 py-24 sm:px-6">
+    <p class="eyebrow text-brass-400">{{ site.tagline }}</p>
+    <h1 class="mt-3 max-w-2xl font-display text-5xl font-semibold sm:text-6xl">Via Roma</h1>
+    <p class="mt-6 max-w-xl text-lg text-cream-100">
+      Authentic Italian dishes, handmade pasta, and carefully selected wines
+      in the heart of the city.
+    </p>
+    <div class="mt-9 flex flex-wrap gap-4">
+      <a href="/reservations/" class="btn-primary">Reserve a Table</a>
+      <a href="/menu/" class="btn-ghost-light">Explore the Menu</a>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16">
+  <div>
+    <p class="eyebrow">Since the beginning</p>
+    <h2 class="mt-2 text-3xl sm:text-4xl">A table like family's.</h2>
+    <p class="prose-roma mt-5">
+      At Via Roma, we believe good food should bring people together. Our
+      kitchen draws from the traditional cooking of Rome — simple
+      ingredients, handmade pasta, generous hospitality, and recipes meant to
+      be shared.
+    </p>
+    <a href="/about/" class="btn-secondary mt-6">Our Story</a>
+  </div>
+  <img
+    src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1400&auto=format&fit=crop"
+    alt="The dining room at Via Roma, set with white tablecloths ahead of service."
+    width="1400" height="1000"
+    loading="lazy"
+    class="aspect-[4/3] w-full object-cover"
+  />
+</section>
+
+<section class="bg-cream-100 py-20">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">On the menu</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl">A few signature dishes.</h2>
+      </div>
+      <a href="/menu/" class="btn-secondary">View Full Menu</a>
+    </div>
+
+    <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {% for item in featuredMenu %}
+        <article>
+          {% if item.image %}
+            <img
+              src="{{ item.image }}"
+              alt="{{ item.name }}"
+              width="1200" height="900"
+              loading="lazy"
+              class="aspect-[4/3] w-full object-cover"
+            />
+          {% else %}
+            <div class="ornament aspect-[4/3] w-full items-center justify-center bg-cream-200"></div>
+          {% endif %}
+          <h3 class="mt-4 text-lg font-semibold text-espresso-900">{{ item.name }}</h3>
+          <p class="mt-1 text-sm text-espresso-600">{{ item.description }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="relative overflow-hidden bg-espresso-900 py-24 text-cream-50">
+  <div class="mx-auto max-w-2xl px-4 text-center sm:px-6">
+    <p class="ornament justify-center text-brass-400"></p>
+    <h2 class="mt-4 text-3xl sm:text-4xl">Join us for dinner.</h2>
+    <p class="mt-4 text-cream-100">
+      Whether it's a romantic evening, a family gathering, or simply a plate
+      of handmade pasta, we'd love to have you at our table.
+    </p>
+    <a href="/reservations/" class="btn-primary mt-8">Reserve a Table</a>
+  </div>
+</section>
+
+<section class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16">
+  <img
+    src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?q=80&w=1400&auto=format&fit=crop"
+    alt="Wine being poured tableside at Via Roma."
+    width="1400" height="1000"
+    loading="lazy"
+    class="aspect-[4/3] w-full object-cover lg:order-2"
+  />
+  <div>
+    <p class="eyebrow">Wine &amp; dining</p>
+    <h2 class="mt-2 text-3xl sm:text-4xl">A list built for the table.</h2>
+    <p class="prose-roma mt-5">
+      Our wine list favors the regions our menu draws from — Lazio, Tuscany,
+      Piedmont — alongside a rotating selection of house pours by the glass.
+      Ask your server for a pairing; it's the part of the meal we enjoy
+      talking about most.
+    </p>
+    <ul class="prose-roma mt-5 list-disc space-y-1 pl-5">
+      <li>Regional Italian selections, by the bottle or the glass</li>
+      <li>House red and white poured nightly</li>
+      <li>Pairing suggestions for every course</li>
+    </ul>
+  </div>
+</section>
+
+<section class="bg-cream-100 py-20">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6">
+    <p class="ornament justify-center"></p>
+    <h2 class="mt-4 text-center text-3xl sm:text-4xl">What critics are saying</h2>
+
+    <div class="mt-12 grid gap-10 sm:grid-cols-3">
+      <figure>
+        <blockquote class="prose-roma text-[1.0625rem]">
+          "The cacio e pepe achieves what most versions don't: restraint.
+          Pecorino, pepper, pasta water — nothing extra, nothing missing.
+          It's the dish I'd send a skeptical friend to first."
+        </blockquote>
+        <figcaption class="mt-3 text-sm font-semibold text-espresso-800">— Elena Ricci, The Volunteer Plate</figcaption>
+      </figure>
+      <figure>
+        <blockquote class="prose-roma text-[1.0625rem]">
+          "Via Roma doesn't perform hospitality, it just has it. The dining
+          room is unfussy, the pacing unhurried, and nothing about the
+          evening felt like it was trying too hard."
+        </blockquote>
+        <figcaption class="mt-3 text-sm font-semibold text-espresso-800">— Marcus Doyle, dining critic</figcaption>
+      </figure>
+      <figure>
+        <blockquote class="prose-roma text-[1.0625rem]">
+          "The branzino was properly cooked — crisp skin, translucent flesh —
+          and the wine list is short enough that the server clearly knows
+          every bottle on it."
+        </blockquote>
+        <figcaption class="mt-3 text-sm font-semibold text-espresso-800">— Priya Anand, Knoxville Table</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+  <div class="grid gap-10 border border-cream-300 p-8 sm:p-12 lg:grid-cols-3">
+    <div>
+      <h2 class="text-2xl">Location</h2>
+      <address class="prose-roma mt-3 not-italic">
+        {{ site.address.line1 }}<br />
+        {{ site.address.city }}, {{ site.address.state }} {{ site.address.zip }}
+      </address>
+      <a
+        href="https://www.google.com/maps/search/?api=1&query={{ site.address.line1 }}+{{ site.address.city }}+{{ site.address.state }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary mt-5"
+        >Get Directions</a
+      >
+    </div>
+    <div>
+      <h2 class="text-2xl">Hours</h2>
+      <dl class="prose-roma mt-3 space-y-1">
+        {% for block in site.hours %}
+          <div class="flex justify-between gap-4">
+            <dt>{{ block.days }}</dt>
+            <dd>{{ block.time }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </div>
+    <div>
+      <h2 class="text-2xl">Contact</h2>
+      <p class="prose-roma mt-3">
+        {{ site.phone }}<br />
+        {{ site.email }}
+      </p>
+    </div>
+  </div>
+</section>

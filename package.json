@@ -1,0 +1,27 @@
+{
+  "name": "via-roma",
+  "version": "0.1.0",
+  "description": "Portfolio demo website for the fictional restaurant Via Roma.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --config=eleventy.config.ts --serve",
+    "build": "eleventy --config=eleventy.config.ts",
+    "preview": "eleventy --config=eleventy.config.ts --serve --incremental",
+    "clean": "rm -rf _site .11ty-vite",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-plugin-vite": "^8.0.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.2.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1"
+  }
+}

@@ -1,0 +1,272 @@
+---
+layout: layouts/base.njk
+title: Order Online
+description: Order pickup or delivery from Via Roma.
+---
+
+<section class="bg-espresso-900 py-10 text-cream-50">
+  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6">
+    <p class="eyebrow text-brass-400">Pickup &amp; delivery</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Order Online</h1>
+    <p class="prose-roma mx-auto mt-4 text-cream-100">
+      This is a simulated ordering experience for demonstration purposes — no
+      payment is processed and no order is actually sent to a kitchen.
+    </p>
+  </div>
+</section>
+
+<section data-step="type" tabindex="-1" class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+  <h2 class="text-center text-2xl text-espresso-900">How would you like to order?</h2>
+  <div class="mt-8 grid gap-6 sm:grid-cols-2">
+    <button
+      type="button"
+      data-order-type-btn="pickup"
+      class="border border-cream-300 p-8 text-left transition-colors hover:border-wine-600"
+    >
+      <h3 class="font-display text-xl font-semibold text-espresso-900">Pickup</h3>
+      <p class="prose-roma mt-2 text-[0.95rem]">
+        Ready in about 25–35 minutes. Park out front and we'll bring it out.
+      </p>
+    </button>
+    <button
+      type="button"
+      data-order-type-btn="delivery"
+      class="border border-cream-300 p-8 text-left transition-colors hover:border-wine-600"
+    >
+      <h3 class="font-display text-xl font-semibold text-espresso-900">Delivery</h3>
+      <p class="prose-roma mt-2 text-[0.95rem]">
+        Delivered in about 45–60 minutes. $4.99 delivery fee.
+      </p>
+    </button>
+  </div>
+</section>
+
+<section data-step="browse" hidden tabindex="-1" class="pb-24">
+  <div class="sticky top-[65px] z-30 border-y border-cream-300 bg-cream-50/95 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <p class="text-sm text-espresso-700">
+        Ordering for <strong data-order-type-label class="text-espresso-900"></strong>
+        <button type="button" data-change-type class="ml-2 font-semibold text-wine-600 underline underline-offset-2">
+          Change
+        </button>
+      </p>
+      <nav aria-label="Menu categories" class="flex gap-5 overflow-x-auto text-sm font-semibold whitespace-nowrap">
+        {% for category in menu %}
+          <a href="#order-{{ category.slug }}" class="text-espresso-700 no-underline hover:text-wine-600">{{ category.name }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    {% for category in menu %}
+      <div id="order-{{ category.slug }}" class="scroll-mt-32 border-b border-cream-200 py-10 last:border-0">
+        <h2 class="text-2xl text-espresso-900">{{ category.name }}</h2>
+        <ul class="mt-6 divide-y divide-cream-200">
+          {% for item in category.items %}
+            <li
+              data-item-row
+              data-item-id="{{ item.slug }}"
+              data-item-name="{{ item.name }}"
+              data-item-price="{{ item.price }}"
+              class="flex flex-wrap items-center justify-between gap-4 py-4 first:pt-0 last:pb-0"
+            >
+              <div class="min-w-0 flex-1">
+                <h3 class="text-base font-semibold text-espresso-900">
+                  {{ item.name }}
+                  {% if item.dietary %}
+                    <span class="ml-1 align-middle text-xs font-semibold tracking-wide text-olive-600">
+                      {% for tag in item.dietary %}({{ tag }}){% endfor %}
+                    </span>
+                  {% endif %}
+                </h3>
+                <p class="mt-0.5 max-w-lg text-sm text-espresso-600">{{ item.description }}</p>
+                <span class="mt-1 block font-display text-base text-wine-600">{{ item.price | currency }}</span>
+              </div>
+
+              <div class="shrink-0">
+                <button
+                  type="button"
+                  data-add-btn
+                  aria-label="Add {{ item.name }} to order"
+                  class="btn-secondary px-4 py-2 text-xs"
+                >
+                  Add to Order
+                </button>
+                <div data-stepper hidden class="flex items-center gap-3 border border-espresso-800 px-2 py-1.5">
+                  <button type="button" data-decrement aria-label="Remove one {{ item.name }}" class="px-1.5 text-lg font-semibold text-espresso-800">−</button>
+                  <span data-qty class="w-4 text-center text-sm font-semibold text-espresso-900">0</span>
+                  <button type="button" data-increment aria-label="Add one more {{ item.name }}" class="px-1.5 text-lg font-semibold text-espresso-800">+</button>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<button
+  type="button"
+  data-cart-toggle
+  hidden
+  class="btn-primary fixed right-4 bottom-4 z-40 shadow-lg sm:right-8 sm:bottom-8"
+>
+  <span data-cart-toggle-label>View Order</span>
+</button>
+
+<div data-cart-overlay hidden class="fixed inset-0 z-50 bg-espresso-900/50"></div>
+
+<aside
+  data-cart-panel
+  hidden
+  aria-label="Your order"
+  class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-cream-50 shadow-xl"
+>
+  <div class="flex items-center justify-between border-b border-cream-300 px-5 py-4">
+    <h2 class="text-lg font-semibold text-espresso-900">Your Order</h2>
+    <button type="button" data-cart-close aria-label="Close cart" class="text-2xl leading-none text-espresso-700">&times;</button>
+  </div>
+
+  <div data-cart-lines class="flex-1 overflow-y-auto px-5 py-4"></div>
+
+  <div class="border-t border-cream-300 px-5 py-5">
+    <dl class="space-y-1.5 text-sm text-espresso-700">
+      <div class="flex justify-between">
+        <dt>Subtotal</dt>
+        <dd data-cart-subtotal>$0.00</dd>
+      </div>
+      <div class="flex justify-between" data-delivery-row hidden>
+        <dt>Delivery fee</dt>
+        <dd data-cart-delivery>$0.00</dd>
+      </div>
+      <div class="flex justify-between">
+        <dt>Tax</dt>
+        <dd data-cart-tax>$0.00</dd>
+      </div>
+      <div class="flex justify-between border-t border-cream-300 pt-1.5 text-base font-semibold text-espresso-900">
+        <dt>Total</dt>
+        <dd data-cart-total>$0.00</dd>
+      </div>
+    </dl>
+    <button type="button" data-checkout-btn class="btn-primary mt-5 w-full" disabled>Proceed to Checkout</button>
+  </div>
+</aside>
+
+<section data-step="checkout" hidden tabindex="-1" class="mx-auto max-w-2xl px-4 py-16 sm:px-6">
+  <h2 class="text-2xl text-espresso-900">Checkout</h2>
+
+  <div data-checkout-summary class="prose-roma mt-6 max-w-none border border-cream-300 p-5 text-sm"></div>
+
+  <form data-checkout-form novalidate class="mt-8 space-y-6">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="co-name" class="text-sm font-semibold text-espresso-800">Name</label>
+        <input id="co-name" name="name" type="text" required autocomplete="name"
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter your name.</p>
+      </div>
+      <div>
+        <label for="co-phone" class="text-sm font-semibold text-espresso-800">Phone</label>
+        <input id="co-phone" name="phone" type="tel" required autocomplete="tel"
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a phone number.</p>
+      </div>
+    </div>
+
+    <div>
+      <label for="co-email" class="text-sm font-semibold text-espresso-800">Email</label>
+      <input id="co-email" name="email" type="email" required autocomplete="email"
+        class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+      <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a valid email.</p>
+    </div>
+
+    <div data-pickup-note class="border border-cream-300 bg-cream-100 p-4 text-sm text-espresso-700">
+      We'll have your order ready at the counter. Bring a photo ID if you paid over the phone.
+    </div>
+
+    <div data-delivery-fields hidden class="space-y-5">
+      <div>
+        <label for="co-address" class="text-sm font-semibold text-espresso-800">Delivery address</label>
+        <input id="co-address" name="address" type="text" autocomplete="street-address"
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+        <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a delivery address.</p>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="co-city" class="text-sm font-semibold text-espresso-800">City</label>
+          <input id="co-city" name="city" type="text" autocomplete="address-level2"
+            class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+        </div>
+        <div>
+          <label for="co-zip" class="text-sm font-semibold text-espresso-800">ZIP code</label>
+          <input id="co-zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code"
+            class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+        </div>
+      </div>
+      <div>
+        <label for="co-notes" class="text-sm font-semibold text-espresso-800">
+          Delivery notes <span class="font-normal text-espresso-500">(optional)</span>
+        </label>
+        <input id="co-notes" name="notes" type="text" placeholder="Gate code, building, etc."
+          class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+      </div>
+    </div>
+
+    <fieldset class="border border-cream-300 p-4">
+      <legend class="px-1 text-sm font-semibold text-espresso-800">
+        Payment <span class="font-normal text-espresso-500">— demo only, nothing is charged</span>
+      </legend>
+      <div class="mt-3 space-y-4">
+        <div>
+          <label for="co-card" class="text-sm font-semibold text-espresso-800">Card number</label>
+          <input id="co-card" name="card" type="text" inputmode="numeric" required
+            placeholder="4242 4242 4242 4242" autocomplete="off"
+            class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+          <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a card number.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-5">
+          <div>
+            <label for="co-expiry" class="text-sm font-semibold text-espresso-800">Expiry</label>
+            <input id="co-expiry" name="expiry" type="text" required placeholder="MM/YY" autocomplete="off"
+              class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+            <p class="mt-1 hidden text-sm text-wine-700" data-error>Required.</p>
+          </div>
+          <div>
+            <label for="co-cvc" class="text-sm font-semibold text-espresso-800">CVC</label>
+            <input id="co-cvc" name="cvc" type="text" inputmode="numeric" required placeholder="123" autocomplete="off"
+              class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600" />
+            <p class="mt-1 hidden text-sm text-wine-700" data-error>Required.</p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button type="submit" class="btn-primary" data-submit-button>
+        <span data-label>Place Order</span>
+      </button>
+      <button type="button" data-back-to-browse class="text-sm font-semibold text-espresso-700 underline underline-offset-2">
+        ← Back to menu
+      </button>
+    </div>
+  </form>
+</section>
+
+<section data-step="confirmation" hidden tabindex="-1" class="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
+  <p class="ornament justify-center"></p>
+  <p class="eyebrow mt-4 text-wine-600">Order confirmed</p>
+  <h2 class="mt-2 text-3xl text-espresso-900">Order #<span data-confirm-order-number></span></h2>
+  <p class="prose-roma mx-auto mt-3 text-lg">
+    Thank you, <span data-confirm-name></span>. Your order has been received.
+  </p>
+  <p class="mt-4 font-display text-xl text-wine-600" data-confirm-eta></p>
+
+  <div data-confirm-summary class="prose-roma mx-auto mt-8 max-w-md border border-cream-300 p-5 text-left text-sm"></div>
+
+  <div class="mt-9 flex flex-wrap justify-center gap-4">
+    <button type="button" data-new-order class="btn-secondary">Start a New Order</button>
+    <a href="/" class="btn-primary">Return Home</a>
+  </div>
+</section>

@@ -1,0 +1,114 @@
+---
+layout: layouts/base.njk
+title: Contact
+description: Get in touch with Via Roma — address, hours, and a contact form.
+---
+
+<section class="bg-espresso-900 py-10 text-cream-50">
+  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6">
+    <p class="eyebrow text-brass-400">Get in touch</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Contact Via Roma</h1>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+  <div class="grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+    <div>
+      <h2 class="text-2xl">Visit</h2>
+      <address class="prose-roma mt-3 not-italic">
+        {{ site.address.line1 }}<br />
+        {{ site.address.city }}, {{ site.address.state }} {{ site.address.zip }}
+      </address>
+      <a
+        href="https://www.google.com/maps/search/?api=1&query={{ site.address.line1 }}+{{ site.address.city }}+{{ site.address.state }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary mt-5"
+        >Get Directions</a
+      >
+
+      <h2 class="mt-10 text-2xl">Hours</h2>
+      <dl class="prose-roma mt-3 space-y-1">
+        {% for block in site.hours %}
+          <div class="flex justify-between gap-4">
+            <dt>{{ block.days }}</dt>
+            <dd>{{ block.time }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+
+      <h2 class="mt-10 text-2xl">Reach us</h2>
+      <p class="prose-roma mt-3">
+        {{ site.phone }}<br />
+        {{ site.email }}
+      </p>
+
+      <h2 class="mt-10 text-2xl">Parking</h2>
+      <p class="prose-roma mt-3">
+        Complimentary lot parking behind the building, with additional
+        street parking along Via Roma after 6:00 PM.
+      </p>
+
+      <a href="/reservations/" class="btn-primary mt-10">Reserve a Table</a>
+    </div>
+
+    <div>
+      <div class="aspect-[4/3] w-full border border-cream-300 bg-cream-100">
+        <iframe
+          title="Map to Via Roma"
+          class="h-full w-full"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q={{ site.address.line1 }}+{{ site.address.city }}+{{ site.address.state }}&output=embed"
+        ></iframe>
+      </div>
+
+      <form data-contact-form class="mt-10 space-y-5" novalidate>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="contact-name" class="text-sm font-semibold text-espresso-800">Name</label>
+            <input
+              id="contact-name" name="name" type="text" required autocomplete="name"
+              class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+            />
+            <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter your name.</p>
+          </div>
+          <div>
+            <label for="contact-email" class="text-sm font-semibold text-espresso-800">Email</label>
+            <input
+              id="contact-email" name="email" type="email" required autocomplete="email"
+              class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+            />
+            <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a valid email.</p>
+          </div>
+        </div>
+
+        <div>
+          <label for="contact-phone" class="text-sm font-semibold text-espresso-800">Phone <span class="font-normal text-espresso-500">(optional)</span></label>
+          <input
+            id="contact-phone" name="phone" type="tel" autocomplete="tel"
+            class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+          />
+        </div>
+
+        <div>
+          <label for="contact-message" class="text-sm font-semibold text-espresso-800">Message</label>
+          <textarea
+            id="contact-message" name="message" rows="5" required
+            class="mt-1 w-full border border-cream-300 bg-cream-50 px-3 py-2 text-espresso-900 focus-visible:outline-2 focus-visible:outline-wine-600"
+          ></textarea>
+          <p class="mt-1 hidden text-sm text-wine-700" data-error>Please enter a message.</p>
+        </div>
+
+        <button type="submit" class="btn-primary" data-submit-button>
+          <span data-label>Send Message</span>
+        </button>
+      </form>
+
+      <div data-contact-success hidden tabindex="-1" class="mt-10 border border-olive-500 bg-olive-100 p-6">
+        <h2 class="text-xl text-espresso-900">Thank you for contacting Via Roma.</h2>
+        <p class="prose-roma mt-2 text-[1rem]">We'll get back to you shortly.</p>
+      </div>
+    </div>
+  </div>
+</section>
